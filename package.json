@@ -1,0 +1,9 @@
+{
+  "name": "@bassjacob/validations",
+  "version": "0.0.1",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^20.0.4"
+  }
+}

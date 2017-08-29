@@ -1,8 +1,8 @@
-const validator = require('./validator');
+const validator = require('./src/validator');
 
-const generalValidators = require('./validators/general');
-const numericalValidators = require('./validators/numerical');
-const sequelizeValidators = require('./validators/sequelize');
+const generalValidators = require('./src/validators/general');
+const numericalValidators = require('./src/validators/numerical');
+const sequelizeValidators = require('./src/validators/sequelize');
 
 module.exports = {
   validator,

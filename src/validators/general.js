@@ -2,7 +2,7 @@ const { isDeepEqual } = require('../helpers');
 
 function immutable () {
   return function (key, params, instance) {
-    if (!isEqual(params[key], instance[key])) return Promise.reject('Can not change');
+    if (!isDeepEqual(params[key], instance[key])) return Promise.reject('Can not change');
     return Promise.resolve();
   };
 }
@@ -31,5 +31,5 @@ function deepEqual (value) {
 module.exports = {
   equal,
   immutable,
-  presence,
+  present,
 };

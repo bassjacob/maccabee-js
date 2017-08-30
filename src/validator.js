@@ -13,7 +13,7 @@ function runValidator(params, instance) {
 
 function reducer(map) {
   return function(acc, key) {
-    return acc.concat(map[key].map(validator => { key, validator }));
+    return acc.concat(map[key].map(validator => ({ key, validator })));
   };
 }
 
@@ -28,22 +28,35 @@ function calculateErrors(results) {
   }, {});
 }
 
-function validator(map) {
+function handleResults(results, params, instance, merge) {
+  const errors = calculateErrors(results);
+
+  if (Object.keys(errors).length > 0) {
+    const error = new Error('Could not validate');
+    error.name = 'ValidationError';
+    error.data = errors;
+    throw error;
+  }
+
+  return merge(params, instance);
+}
+
+function defaultMerge(params, instance) {
+  return Object.keys(params).reduce((acc, key) => {
+    acc[key] = params[key];
+
+    return acc;
+  }, instance);
+}
+
+function validator(map, merge=defaultMerge) {
   const validators = Object.keys(map).reduce(reducer(map), []);
 
-  return (instance, params) => {
+  return (params, instance) => {
     const runner = runValidator(params, instance)
 
-    return Promise.all(validatorArray.map(runner))
-      .then(calculateErrors)
-      .then(errors => {
-        if (Object.keys(errors).length > 0) {
-          const error = new Error('Could not validate');
-          error.name = 'ValidationError';
-          error.data = errors;
-          throw error;
-        }
-      });
+    return Promise.all(validators.map(runner))
+      .then(results => handleResults(results, params, instance, merge));
   };
 }
 

@@ -5,16 +5,13 @@
 */
 
 function runValidator(params, instance) {
-  return function ({ key, validator }) {
-    return validator(key, params, instance)
-      .catch(err => ({ key, err }));
-  };
+  return ({ key, validator }) =>
+    validator(key, params, instance).catch(err => ({ key, err }));
 }
 
 function reducer(map) {
-  return function(acc, key) {
-    return acc.concat(map[key].map(validator => ({ key, validator })));
-  };
+  return (acc, key) =>
+    acc.concat(map[key].map(validator => ({ key, validator })));
 }
 
 function calculateErrors(results) {
@@ -49,15 +46,16 @@ function defaultMerge(params, instance) {
   }, instance);
 }
 
-function validator(map, merge=defaultMerge) {
+function validate(map, merge = defaultMerge) {
   const validators = Object.keys(map).reduce(reducer(map), []);
 
   return (params, instance) => {
-    const runner = runValidator(params, instance)
+    const runner = runValidator(params, instance);
 
-    return Promise.all(validators.map(runner))
-      .then(results => handleResults(results, params, instance, merge));
+    return Promise.all(validators.map(runner)).then(results =>
+      handleResults(results, params, instance, merge)
+    );
   };
 }
 
-module.exports = validator;
+module.exports = validate;

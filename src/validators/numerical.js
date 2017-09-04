@@ -1,28 +1,28 @@
 function lessThan(value) {
-  return function (key, params) {
+  return (key, params) => {
     if (params[key] >= value) {
-      return Promise.reject('Must be < ${value}');
+      return Promise.reject(`Must be < ${value}`);
     }
     return Promise.resolve();
   };
 }
 
-function lessThanOrEqual (value) {
-  return function (key, params) {
+function lessThanOrEqual(value) {
+  return (key, params) => {
     if (params[key] > value) return Promise.reject(`Must be <= ${value}`);
     return Promise.resolve();
   };
 }
 
-function greaterThanOrEqual (value) {
-  return function (key, params) {
+function greaterThanOrEqual(value) {
+  return (key, params) => {
     if (params[key] < value) return Promise.reject(`Must be >= ${value}`);
     return Promise.resolve();
   };
 }
 
-function greaterThan (value) {
-  return function (key, params) {
+function greaterThan(value) {
+  return (key, params) => {
     if (params[key] <= value) return Promise.reject(`Must be > ${value}`);
     return Promise.resolve();
   };

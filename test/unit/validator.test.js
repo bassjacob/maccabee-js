@@ -1,5 +1,5 @@
-const { present } = require('../src/validators/general');
-const validator = require('../src/validator');
+const { present } = require('../../src/validators/general');
+const validator = require('../../src/validator');
 
 describe("validator", function () {
   it("rejects if a validator fails", function () {

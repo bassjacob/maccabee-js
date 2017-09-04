@@ -1,7 +1,7 @@
 const {
   present,
   immutable,
-} = require('../../src/validators/general');
+} = require('../../../src/validators/general');
 
 describe('generalValidators', function () {
   describe('present', function () {

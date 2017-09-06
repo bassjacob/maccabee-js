@@ -6,7 +6,7 @@
 
 function runValidator(params, instance) {
   return ({ key, validator }) =>
-    validator(key, params, instance).catch(err => ({ key, err }));
+    validator(key, params, instance).catch(error => ({ key, error }));
 }
 
 function reducer(map) {

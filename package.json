@@ -1,6 +1,6 @@
 {
-  "name": "@bassjacob/validations",
-  "version": "0.0.1",
+  "name": "maccabee",
+  "version": "0.0.0",
   "main": "index.js",
   "license": "MIT",
   "scripts": {

@@ -46,16 +46,23 @@ function defaultMerge(params, instance) {
   }, instance);
 }
 
-function validate(map, merge = defaultMerge) {
-  const validators = Object.keys(map).reduce(reducer(map), []);
+function validatorFactory({
+  check,
+  pre = (data, params) => params,
+  post = defaultMerge,
+}) {
+  return async (params, instance, data) => {
+    const validators = typeof check === 'object' ? check : check(data);
 
-  return (params, instance) => {
-    const runner = runValidator(params, instance);
+    const richParams = await pre(data, params);
+    const runner = runValidator(richParams, instance);
 
-    return Promise.all(validators.map(runner)).then(results =>
-      handleResults(results, params, instance, merge)
-    );
+    return Promise.all(
+      Object.keys(validators)
+        .reduce(reducer(validators), [])
+        .map(runner)
+    ).then(results => handleResults(results, params, instance, post));
   };
 }
 
-module.exports = validate;
+module.exports = validatorFactory;

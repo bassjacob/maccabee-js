@@ -3,6 +3,7 @@ module.exports = {
   plugins: ['prettier'],
   rules: {
     'prefer-promise-reject-errors': 'off',
+    'prettier/prettier': ['error', {singleQuote: true, trailingComma: 'es5' }]
   },
   parserOptions: {
     ecmaVersion: 2017,

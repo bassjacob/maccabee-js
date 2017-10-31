@@ -5,8 +5,12 @@
 */
 
 function runValidator(params, instance) {
-  return ({ key, validator }) =>
-    validator(key, params, instance).catch(error => ({ key, error }));
+  try {
+    return ({ key, validator }) =>
+      validator(key, params, instance).catch(error => ({ key, error }));
+  } catch (e) {
+    return Promise.resolve({ key, error: e.message });
+  }
 }
 
 function reducer(map) {
